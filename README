@@ -1,0 +1,15 @@
+The zookws web server consists of the following components.
+
+zookld:  a launcher daemon that launches services configured in the file zook.conf.
+zookd:  a dispatcher that routes HTTP requests to corresponding services.
+zookfs and other services that may serve static files or execute dynamic scripts.
+
+After zookld launches configured services, zookd listens on a port (8080 by default) for incoming HTTP requests and reads the first line of each request for dispatching. In this lab, zookd is configured to dispatch every request to the zookfs service, which reads the rest of the request and generates a response from the requested file
+
+zookld will lauch zookd and zookfs and other serices as child process, during each lauching, zookld establish a socket "svcfds[i]" to communicate with each child process,and transfer these socket as an argument when each child process execute their own program,so that each child process knows use which socket to communicate with its parents. beside, zookld create another socket "sockfd" to listen on port 8080 for outside connections. 
+
+then, zookld will send all "svcfds[...]" and "sockfd" sockets and url pattern of each service to zookd, and after that, zookld closes all the sockets it has opend and just wait for zookd to finish. and zookd will take the place of zookld to finish the rest dirty work
+
+zookd, as a dispatcher, will receive all the socket discriptor and urls from zoold, and then listen on "sockfd" to accept connection request from outside world, and read the first line of the request and dispatch the request and the new socket(what accept() returns) to specific service(zookfs) according to the url pattern of the request.
+
+the services, like zookfs, receive the request and the new socket, then lauch a new process to process the subsequent request, and the service will wait new tasks from zookd.
