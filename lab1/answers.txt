@@ -1,12 +1,22 @@
 1, expoit-2a.py:
 we exploit the vulnerability of function
          url_decode(reqpath, sp1);
-which is in [http.c:105], for it doesn't perform bounds checking. we let the path 
-after "GET" method be "/A(repeat 3000 times)", thus the path(whose length is 3001)
- will be copied into reqpath, while reqpath is defined as:  
+which is in [http.c:105], for it doesn't perform bounds checking. we let the path  after "GET" method be
+"/A(repeat 3000 times)", thus the path(whose length is 3001) will be copied into reqpath, while reqpath
+is defined as:  
          char reqpath[2048];
-in [zookd.c:65], the stack address after reqpath is saved EBP and return address of
-funciton process_client(), obviously, these two addresses will be overwritten by 
-"AAAA" and zookd crashes, this can be verified by either "dmesg | tail" or just observe
-zook's behaviors.
+in [zookd.c:65], the stack address after reqpath is saved EBP and return address of funciton process_client(),
+obviously, these two addresses will be overwritten by "AAAA" and zookd crashes, this can be verified by either
+"dmesg | tail" or just observe zook's behaviors.
+
+2, explot-2b.py:
+we exploit the vulnerablility of function
+         strcat(pn, name);
+which is in [http.c:282], for it doesn't perform bounds checking, since the address after "pn" is the address
+of function pointer "handler", thus if name is too long, "handler will be overwitten. we just set the path of
+"GET" method to be "/A(repeat 1023 times)", then "/A(repeat 1023 times)" will be concatenated after pn, at 
+this time "pn" already contain the root path, thus pn[1024] will definitely be overflowed and thus "handler" get
+overwritten.
+unfortunately, zookfs fork a new process to tackle each request, thus this attack will not affect the behavior of
+zookfs, we just stop ourselves from getting the resources......
 
