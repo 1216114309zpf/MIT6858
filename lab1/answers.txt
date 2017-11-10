@@ -1,0 +1,7 @@
+1, expoit-2a.py:
+we exploit the vulnerability of function
+         url_decode(reqpath, sp1);
+which is in [http.c:105], for it doesn't perform bounds checking. we let the path after "GET" method be "/A(repeat 3000 times)", thus the path(whose length is 3001) will be copied into reqpath, while reqpath is defined as:  
+         char reqpath[2048];
+in [zookd.c:65], the stack address after reqpath is saved EBP and return address of funciton process_client(), obviously, these two addresses will be overwritten by "AAAA" and zookd crashes, this can be verified by either "dmesg | tail" or just observe zook's behaviors.
+

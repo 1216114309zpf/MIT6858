@@ -1,0 +1,4 @@
+#this file contains some notes I concluded during lab1
+1,Since both http_request_line() and http_request_headers() call http_read_line(), and http_read_line() has no stack-overflow vulnerablility, so each of our request cannot be longer than argument "size" in http_read_line(), which is usually 8192.
+
+
