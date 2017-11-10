@@ -19,4 +19,5 @@ this time "pn" already contain the root path, thus pn[1024] will definitely be o
 overwritten.
 unfortunately, zookfs fork a new process to tackle each request, thus this attack will not affect the behavior of
 zookfs, we just stop ourselves from getting the resources......
+However, if we modify "handler" carefully, we can let it point to anywhere thus execute code we want!!!
 
