@@ -36,3 +36,8 @@ the return address of process_client() is modified to point to unlink(),then fol
 then address of string "/home/httpd/grades.txt", then follows string "/home/httpd/grades.txt". it is arranged 
 according to the C function call rule.
 
+6, exploit-4b.py
+this attack is the call-libc implementation of exploit-2b.py
+basicly, I use stack-overflow to overwrite function pointer handler with the address of lic funciton unlink(),since
+handler() will push http_serve()'s first argument "fd" into stack as its first argument, thus we overwrite "fd" with the
+address of path string "/home/httpd/grades.txt".
