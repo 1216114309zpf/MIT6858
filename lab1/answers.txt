@@ -26,3 +26,6 @@ this attack corresponds to exploit-2a.py
 the basic idea is to please shellcode(with some nop "\x90" operations) in buffer "reqpath" and let process_client()
 return to "reqpath".
 
+4, exploit-3b.py
+this attack corresponds to expoit-2b.py
+the basic idea is similar to above one
