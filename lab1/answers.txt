@@ -29,3 +29,10 @@ return to "reqpath".
 4, exploit-3b.py
 this attack corresponds to expoit-2b.py
 the basic idea is similar to above one
+
+5, exploit-4a.py
+this attack is the return-to-libc implementation of exploit-2a.py
+the return address of process_client() is modified to point to unlink(),then follows address of function exit(),
+then address of string "/home/httpd/grades.txt", then follows string "/home/httpd/grades.txt". it is arranged 
+according to the C function call rule.
+
