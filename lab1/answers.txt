@@ -38,14 +38,15 @@ according to the C function call rule.
 
 6, exploit-4b.py
 this attack is the call-libc implementation of exploit-2b.py
-basicly, I use stack-overflow to overwrite function pointer handler with the address of lic funciton unlink(),since
-handler() will push http_serve()'s first argument "fd" into stack as its first argument, thus we overwrite "fd" with the
-address of path string "/home/httpd/grades.txt".
+basicly, I use stack-overflow to overwrite function pointer handler with the address of lic funciton unlink(),
+since handler() will push http_serve()'s first argument "fd" into stack as its first argument, thus we overwrite
+ "fd" with the address of path string "/home/httpd/grades.txt".
 
 
-In the above attacks, we exploit two stack over-flow vulnerrabilities, one is origin from function url_decode(), and 
-another if original from function strcat(), both of these two functions does not perform bounds checking. and we use 
-shellcode injecting, return-to-libc, call-libc and etc techiniques to exploit these vulnerabilities.
+More vulnerabilities:
+In the above attacks, we exploit two stack over-flow vulnerrabilities, one is origin from function url_decode(),
+and  another if original from function strcat(), both of these two functions does not perform bounds checking. 
+and we use shellcode injecting, return-to-libc, call-libc and etc techiniques to exploit these vulnerabilities.
 
 Besides, there are other kinds of vulnerabilities in this web application,  like 
 
@@ -60,5 +61,11 @@ this server allows you to set arbitrary environment variables on the server, whi
  the attacker could overwrite the PATH or other key env variables.
 
 [http.c:304]
-This server serves any files on the server by using relative URLs. The server should implement some type of explicit access
- control system to limit what the server is able to access.                                                                                                          
+This server serves any files on the server by using relative URLs. The server should implement some type of explicit
+access control system to limit what the server is able to access.                      
+vulnerabilities fix:
+Most of the vulnerabilities exist because there is no buffer bound checking, thus we fixed these vulnerabilities by
+adding some length checking to make sure buffer-over flow will not happen.
+we modified file http.h, http.c, zookfs.c zookd.c, most of the modifications are in function: 
+       url_decode(), http_request_line() and http_serve()
+or those functions who call them. all the modified files are named with a "fixed" postfix.                                                                                  
