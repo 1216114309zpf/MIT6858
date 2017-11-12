@@ -1,3 +1,5 @@
+The original code comes from MIT CS6.858 course. it provides a real web server called zookws which contains several kinds of vulnerabilities. and what we should do is to find these vnlerabilities, exploit them, and then to fix them!
+
 The zookws web server consists of the following components.
 
 zookld:  a launcher daemon that launches services configured in the file zook.conf.
