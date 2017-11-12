@@ -17,27 +17,27 @@
 # many more come here
 
 [http.c:438]
-The url_decode function does not perform bounds checking on the size of the dst array. As long as src still has valid characters, url_decode will keep copying them into dst and will eventually overflow the buffer. I tested this attack by making a request path with 3000+ chars since reqpath as defined in [zookd.c:65] is only 2048 bytes.
+The url_decode function does not perform bounds checking on the size of the dst array. As long as src still has valid characters, url_decode will keep copying them into dst and will eventually overflow the buffer. Therefore just feed src with enough long characters, dst will surely be overflowed. 
 
 void url_decode(char *dst, const char *src) { ... }
 
 [http.c:283]
-strcat is an exploitable function. The buffer pn is only 1024 bytes, but name may be of any length. In this case, name is set as the value of getenv("REQUEST_URI") in [zookfs.c:47]. This is risky because pn is right next to a fn pointer handler. This is actually vulnerable to 2 types of exploits - a classic stack overflow as well as overwriting the fn pointer immediately adjacent to it. 
+strcat is an exploitable function for it does not check whether the buffer has enough space. The buffer pn is only 1024 bytes, but name may be of any length. In this case, name is set as the value of getenv("REQUEST_URI") in [zookfs.c:47]. This is risky because pn is right next to a fn pointer handler. This is actually vulnerable to 2 types of exploits - a classic stack overflow as well as overwriting the fn pointer immediately adjacent to it. 
 
 strcat(pn, name);
 
 [http.c:95]
-sprintf is a vulnerable function since it does not do bounds checking. If I attack with a long request method, then I can copy into *envp(=*env) enough bytes to access memory outside of *env which is 8129 bytes, as declared in [zookd.c:63] and passed to http_request_line in [zookd.c:70]. However this will be a heap attack not a stack attack since env is declared as static. 
+sprintf is a vulnerable function since it does not do bounds checking. If I attack with a long request method, then I can copy into *envp(=*env) enough bytes to access memory outside of *env which is 8129 bytes, as declared in [zookd.c:63] and passed to http_request_line in [zookd.c:70]. However this is not a stack attack since env is declared as static. 
 
 envp += sprintf(envp, "REQUEST_METHOD=%s", buf) + 1;
 
 [http.c:96]
-Similar to the previous attack except this time using the SERVER_PROTOCOL to overflow the buffer and write to adjacent memory on the heap. Again because sprintf does not do any bounds checking.
+Similar to the previous attack except this time using the SERVER_PROTOCOL to overflow the buffer and write to adjacent memory. Again because sprintf does not do any bounds checking.
 
 envp += sprintf(envp, "SERVER_PROTOCOL=%s", sp2) + 1;
 
 [http.c:160]
-The headers of the HTTP request can be exploited by overflowing the value buff as defined in http_request_headers(). This is via the url_decode method since it does not perform bounds checking. This is the point of attack I used in exploit-3.py
+The headers of the HTTP request can be exploited by overflowing the value buff as defined in http_request_headers(). This is via the url_decode method since it does not perform bounds checking. 
 
 url_decode(value,sp);
 

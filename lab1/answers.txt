@@ -41,3 +41,24 @@ this attack is the call-libc implementation of exploit-2b.py
 basicly, I use stack-overflow to overwrite function pointer handler with the address of lic funciton unlink(),since
 handler() will push http_serve()'s first argument "fd" into stack as its first argument, thus we overwrite "fd" with the
 address of path string "/home/httpd/grades.txt".
+
+
+In the above attacks, we exploit two stack over-flow vulnerrabilities, one is origin from function url_decode(), and 
+another if original from function strcat(), both of these two functions does not perform bounds checking. and we use 
+shellcode injecting, return-to-libc, call-libc and etc techiniques to exploit these vulnerabilities.
+
+Besides, there are other kinds of vulnerabilities in this web application,  like 
+
+[http.c:164]
+  sprintf(envvar, "HTTP_%s", buf);
+envvar is just 512 bytes long, while buf can be as long as 8192 bytes. here sprintf is used to set headers with 
+HTTP_ prefix, thus it's easy to see that  a maliciously crafted header could overflow the envvar buffer declared
+ in [http.c:121] and overwrite the saved EIP of the http_request_headers function().
+
+[http.c:165]
+this server allows you to set arbitrary environment variables on the server, which is obviously risky. For example,
+ the attacker could overwrite the PATH or other key env variables.
+
+[http.c:304]
+This server serves any files on the server by using relative URLs. The server should implement some type of explicit access
+ control system to limit what the server is able to access.                                                                                                          
