@@ -1,0 +1,12 @@
+1, Make return address align to 4 bytes. in "exploit-3b.py
+   Although we know the distance between buffer "pn" and the return address, the program will put 
+ environment variable "DOCUMENT_ROOT" in the beginning of the buffer "pn". So we must pad some bytes
+ to make length of "DOCUMENT_ROOT" and the padding be times of 4 bytes. we can check "DOCUMENT_ROOT"
+ 's length in the local environment and get its length is 16, but in real attack, we can not get this
+ information, which means we must try different length of padding...
+2, Add a string in the request string. in both "exploit-4a.py" and "exploit-4b.py"
+  To exploit return-to-libc or call-libc, we must offer a pointer to a string ("/home/httpd/grades.txt")
+ to the function "unlink", and we contains this string in the request string, a string must be ended with
+ a '\0', while we can't contains such a string in the request string, since the request string must be 
+ intact. Fortunately, the server program will replace the ' ' before "HTTP" with a '\0', so we just put
+ the string ("/home/httpd/grades.txt") in the end of the "path", which is before "HTTP".
