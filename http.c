@@ -232,7 +232,7 @@ void split_path(char *pn)
             break;
         }
     }
-
+    //here it's "slash" instead of "*slash"
     if (slash) {
         *slash = '/';
         setenv("PATH_INFO", slash, 1);
