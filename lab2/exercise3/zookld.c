@@ -152,22 +152,22 @@ pid_t launch_svc(CONF *conf, const char *name)
            chdir("/");
     }
 
-    /*must set uid before set gid, or exercise failed...do not know why still */
+   
+    /*group id must be set before user id, or setting group id will fail because only root user can set group id*/
+    if (NCONF_get_number_e(conf, name, "gid", &gid))
+    {
+        /* change real, effective, and saved gid to gid */
+        setresgid(gid,gid,gid);
+        warnx("setgid %ld", gid);
+    }
+  
+    
     /*must make sure it is still root before this operation, after this operation, it will become a normal user.*/
     if (NCONF_get_number_e(conf, name, "uid", &uid))
     {
         /* change real, effective, and saved uid to uid */
         setresuid(uid,uid,uid);
         warnx("setuid %ld", uid);
-    }
-
-   
-    /*it seems that setgid can be after setuid, that's because setgid doesn't need privileged user id?*/
-    if (NCONF_get_number_e(conf, name, "gid", &gid))
-    {
-        /* change real, effective, and saved gid to gid */
-        setresgid(gid,gid,gid);
-        warnx("setgid %ld", gid);
     }
 
 

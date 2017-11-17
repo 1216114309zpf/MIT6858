@@ -10,10 +10,20 @@ Partial answer: still set gid before uid, but set zook.conf as follows:
        # by specifying the UID/GID of allowed CGI executables, as follows;
        # uncomment and replace 123 and 456 with your intended UID and GID:
        args = 8200 8201
-the only difference is that I change gid from 8201 to 8202. but now we can pass exercise4.
-I think the reason is that zookfs will compile each python file into something "*.pyc", and all the compiled
-file will get "owner:group" as "uid:gid" thus they will have the same "owner:group" attribute with
-"/jail/zoobar/index.cgi" and these compiled file will be able to be executed by zookfs, just as 
-"/jail/zoobar/index.cgi" do. so it's easy to see if we just change gid to make it different from the second 
-argument of "args", we will pass exercise4.
+     the only difference is that I change gid from 8201 to 8202. but now we can pass exercise4. I think the
+     reason is that zookfs will compile each python file into something "*.pyc", and all the compiled file 
+     will get "owner:group" as "uid:gid" thus they will have the same "owner:group" attribute with
+     "/jail/zoobar/index.cgi" and these compiled file will be able to be executed by zookfs, just as 
+     "/jail/zoobar/index.cgi" do. so it's easy to see if we just change gid to make it different from the 
+     second argument of "args", we will pass exercise4.
 So now the question is why we set uid before gid without modifying gid can also pass exercise?
+Final answer: the reason is that if will set gid after uid, then we will fail to set gid, because setting gid
+     need root priviledge(besides, the check process doesn't check group id, thus we can still pass exercise3).
+     so in case of setting gid after uid, gid is still root, and all the compile ".pyc" file get "owner:group"
+     as "uid:root", which is obviously different from "8200:8201" thus we also pass exercise4.
+so the write operation is (1) set gid before uid.
+                          (2) set zookfs's gid different from args's second argument.
+these reasons can be find by running command "sudo find  /jail -uid 8200 -gid 8201" and command "ls -la" in 
+another shell during the check process.
+the detailed check process can be found in file "check_lab2.py"
+
