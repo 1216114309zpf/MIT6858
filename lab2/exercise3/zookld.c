@@ -152,7 +152,16 @@ pid_t launch_svc(CONF *conf, const char *name)
            chdir("/");
     }
 
-    /*set group id first, since after this operation, it is still root user, and can still set user id.*/
+    /*must set uid before set gid, or exercise failed...do not know why still */
+    /*must make sure it is still root before this operation, after this operation, it will become a normal user.*/
+    if (NCONF_get_number_e(conf, name, "uid", &uid))
+    {
+        /* change real, effective, and saved uid to uid */
+        setresuid(uid,uid,uid);
+        warnx("setuid %ld", uid);
+    }
+
+   
     /*it seems that setgid can be after setuid, that's because setgid doesn't need privileged user id?*/
     if (NCONF_get_number_e(conf, name, "gid", &gid))
     {
@@ -161,13 +170,6 @@ pid_t launch_svc(CONF *conf, const char *name)
         warnx("setgid %ld", gid);
     }
 
-    /*must make sure it is still root before this operation, after this operation, it will become a normal user.*/
-    if (NCONF_get_number_e(conf, name, "uid", &uid))
-    {
-        /* change real, effective, and saved uid to uid */
-        setresuid(uid,uid,uid);
-        warnx("setuid %ld", uid);
-    }
 
     if ((groups = NCONF_get_string(conf, name, "extra_gids")))
     {
