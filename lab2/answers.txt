@@ -4,3 +4,6 @@ Exercise3: (1) set zookd and zookfs with different uids and gids
            (2) chroot,setuid ,setgid and setgroups.
            (3) change database access priviledge to let zookfs access it.
 
+Exercise4: use both url, args and file access permission to make sure that
+               static service can not access dynamic service's data base and cannot execution anything
+               dynmamic service can only execture index.cgi and will not modify static files(no write priviledge)
