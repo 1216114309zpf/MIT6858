@@ -1,6 +1,6 @@
 Exercise2: just chroot and then change to "root" directory.
 
 Exercise3: (1) set zookd and zookfs with different uids and gids
-           (2) chroot, setgid,setuid and setgroups.
+           (2) chroot,setuid ,setgid and setgroups.
            (3) change database access priviledge to let zookfs access it.
 
