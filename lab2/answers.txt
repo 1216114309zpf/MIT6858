@@ -7,3 +7,4 @@ Exercise3: (1) set zookd and zookfs with different uids and gids
 Exercise4: use both url, args and file access permission to make sure that
                static service can not access dynamic service's data base and cannot execution anything
                dynmamic service can only execture index.cgi and will not modify static files(no write priviledge)
+Exercise5: this exercise is a little complex, I Just finish it as the guide says(not necessary the same order).
