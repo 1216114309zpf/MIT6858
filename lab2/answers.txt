@@ -10,3 +10,7 @@ Exercise4: use both url, args and file access permission to make sure that
 Exercise5: this exercise is a little complex, I Just finish it as the guide says(not necessary the same order).
 Exercise6: this exercise is not different at all, but it envolves an important aspect of password security,
            just follow the tutorial, the type of "salt" in table "Cred" should be "Binary"
+Exercise7: similar to Exercise5, but a little more complex, changes are made to several files which uses "bank"
+           and "transfer" service. this is a little problem, since "db" can not be serialized into json format,
+           so I don't implement "get_log" funtion in bank-server, instead I just let other services to access
+           transfer database directly.

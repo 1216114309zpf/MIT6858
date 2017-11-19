@@ -27,3 +27,4 @@ these reasons can be find by running command "sudo find  /jail -uid 8200 -gid 82
 another shell during the check process.
 the detailed check process can be found in file "check_lab2.py"
 
+Problem2: something like "db" can not be serialized into json format.
