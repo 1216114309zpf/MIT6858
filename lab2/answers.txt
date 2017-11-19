@@ -8,3 +8,5 @@ Exercise4: use both url, args and file access permission to make sure that
                static service can not access dynamic service's data base and cannot execution anything
                dynmamic service can only execture index.cgi and will not modify static files(no write priviledge)
 Exercise5: this exercise is a little complex, I Just finish it as the guide says(not necessary the same order).
+Exercise6: this exercise is not different at all, but it envolves an important aspect of password security,
+           just follow the tutorial, the type of "salt" in table "Cred" should be "Binary"
