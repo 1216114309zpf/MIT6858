@@ -14,3 +14,5 @@ Exercise7: similar to Exercise5, but a little more complex, changes are made to 
            and "transfer" service. this is a little problem, since "db" can not be serialized into json format,
            so I don't implement "get_log" funtion in bank-server, instead I just let other services to access
            transfer database directly.
+Exercise8: just add an argument "token" when transfer.py invokes transfer(), and use check_token() from auth_client.py
+           to check the token in bank-server.py 
