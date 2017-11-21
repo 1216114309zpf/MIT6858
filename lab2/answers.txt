@@ -16,3 +16,4 @@ Exercise7: similar to Exercise5, but a little more complex, changes are made to 
            transfer database directly.
 Exercise8: just add an argument "token" when transfer.py invokes transfer(), and use check_token() from auth_client.py
            to check the token in bank-server.py 
+Exercise9: easy. need to get token from database cred to finish transfer()
