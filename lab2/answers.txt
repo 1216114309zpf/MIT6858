@@ -21,4 +21,4 @@ Exercise10: (1) construct a dirctory shared by all the profiles and set its acce
                 services from accessing them.
             (2) construct a dirctory for each user to and chroot to this directory to jail it, and set access mode to
                 777 to let other process(but same profile user) to access it.
-                
+Exercise11: just finish it as the tutorial guides. 
