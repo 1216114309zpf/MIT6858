@@ -17,3 +17,8 @@ Exercise7: similar to Exercise5, but a little more complex, changes are made to 
 Exercise8: just add an argument "token" when transfer.py invokes transfer(), and use check_token() from auth_client.py
            to check the token in bank-server.py 
 Exercise9: easy. need to get token from database cred to finish transfer()
+Exercise10: (1) construct a dirctory shared by all the profiles and set its access mode to 700 to prevent other 
+                services from accessing them.
+            (2) construct a dirctory for each user to and chroot to this directory to jail it, and set access mode to
+                777 to let other process(but same profile user) to access it.
+                
