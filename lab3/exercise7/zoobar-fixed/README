@@ -1,0 +1,12 @@
+To fix bugs for lab 3 exercise 7, copy any files you want to modify
+from the zoobar directory to this directory.  Please keep the original
+files in the zoobar directory unchanged, so that "make check" continues
+working for previous exercises.
+
+Just check the file typescript, we can esaily find that "Balance mismatch" is 
+caused by sending zoobars to oneself, and "Zoobar theft" is caused by sending
+negative zoobars to someone else, thus to fix these bugs we just add the following
+checks:
+  if sender == recipient or zoobars < 0:
+        raise ValueError()
+in file bank.py
