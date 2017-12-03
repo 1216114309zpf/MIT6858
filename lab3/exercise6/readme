@@ -1,0 +1,21 @@
+This exercise requires us to enforce to gurantees:
+1, if no new users are registered, the sum of Zoobar balance in all accounts should remain the same
+  before and after every request.
+2, if a user u doesn't request any zoobar transfer request, its zoobars should not shrink.
+
+For the first gurantees, we first check if there are new regitered users or deleted users, if none,
+then we check if the total balance have changed, if so, we just call the function report_balance_mismatch().
+    if people_before == people_after and \
+          set(zoobars_before.keys()) == set(zoobars_after.keys()) and \
+             balance_before != balance_after:
+       report_balance_mismatch()
+
+For the second gurantees, we first find those users who does not require a zoobar transfer through checking
+database Transfer and Person, and then we check if its zoobars has shrunk after the test, if so, we call
+the function report_zoobar_theft()
+    for people in pdb.query(zoobar.zoodb.Person).all():
+      if people.username not in senders and \
+         people.username in zoobars_before and \
+         people.username in zoobars_after and \
+         zoobars_before[people.username] > zoobars_after[people.username]:
+              report_zoobar_theft()

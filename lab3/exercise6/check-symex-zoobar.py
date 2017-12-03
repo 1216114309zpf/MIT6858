@@ -36,8 +36,9 @@ def test_stuff():
   pdb.query(zoobar.zoodb.Person).delete()
   adduser(pdb, 'alice', 'atok')
   adduser(pdb, 'bob', 'btok')
-  zoobars1 = [p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()]
-  balance1 = sum([p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()])
+  zoobars_before = {p.username:p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()}
+  balance_before = sum([p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()])
+  people_before = sum([1 for p in pdb.query(zoobar.zoodb.Person).all()])
   pdb.commit()
 
   tdb = zoobar.zoodb.transfer_setup()
@@ -80,15 +81,32 @@ def test_stuff():
 
   ## Detect balance mismatch.
   ## When detected, call report_balance_mismatch()
-  balance2 = sum([p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()])
-  if balance1 != balance2:
+
+  #if count of users doesn't change, totoal balance should not change
+  zoobars_after = {p.username:p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()}
+  balance_after = sum([p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()])
+  people_after = sum([1 for p in pdb.query(zoobar.zoodb.Person).all()])
+  if people_before == people_after and \
+          set(zoobars_before.keys()) == set(zoobars_after.keys()) and \
+             balance_before != balance_after:
      report_balance_mismatch()
 
   ## Detect zoobar theft.
   ## When detected, call report_zoobar_theft()
-  zoobars2 = [p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()]
-  if not all(before == after for (before, after) in zip(zoobars1, zoobars2)):
-     report_zoobar_theft()
+
+  # if a user does not request a zoobar transfer, its zoobars should not shrink
+
+  #get all users who request zoobar transfer in this test
+  senders = set()
+  for transfer in tdb.query(zoobar.zoodb.Transfer).all():
+      senders.add(transfer.sender)
+  
+  for people in pdb.query(zoobar.zoodb.Person).all():
+      if people.username not in senders and \
+         people.username in zoobars_before and \
+         people.username in zoobars_after and \
+         zoobars_before[people.username] > zoobars_after[people.username]:
+              report_zoobar_theft()
 
 fuzzy.concolic_test(test_stuff, maxiter=2000, verbose=1)
 
