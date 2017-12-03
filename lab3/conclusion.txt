@@ -1,0 +1,30 @@
+Symbolic Execution is powerful technique for software tests. The goal of Symbolic Execution is to achieve
+high code coverage and path coverage, in the context of security, this is helpful because it helps explore
+rare code paths that might contains vulnerabilities but that aren't being triggered in typical execution
+of the code. 
+
+So we can use Symbolic Execution to help us find bugs in software, a typical use case of Symbolic Execution
+is, just like Exercise6 and Exercise7 guides:
+   1, making the input in Symbolic or Concolic format, 
+   2, record the execution path(condition constraints) in each test,
+   3, change a condition constrains in the former execution path and find a proper input which satisfies
+      the new condition constrains with the help of SMT solver(here MicroSoft Z3),
+   4, add the new input to the input queues,
+   5, repeat 2-4 until the input queue is empty,
+the above steps will try all the possible paths in the programs with different inputs, so this makes finding
+a bugs much easy as we can:
+   1, specify some invariant in the execution,
+   2, after each test, check if the invariant is satisfied,
+   3, if the invariant is vailated, it means we have found a bug, so we just print the corresponding input
+      that causes the vailation.
+
+So we can see, the essence of Symbolic Execution is to automatically find proper inputs that can try all the
+possible paths in the program and output those who can cause something bad(crashes, invariant vailation. etc.),
+therefore helps us find and fix bugs in the program.
+
+Symbolic Execution relies on SMT solver to find a proper input with a specific series of condition constraints,
+and as we know, this is a NPC problem, so currently, no SMT solver can gurantee to give a proper input with
+the condition constraints in polynomial time. Thus a disadvantage of Symbolic Execution is that if can not be
+used in quite complex program(with much more level branches)
+
+
