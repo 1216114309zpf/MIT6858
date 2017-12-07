@@ -1,3 +1,5 @@
+                          Reflected Cross-site Scripting
+
 The cross-site scripting vulnerability on /zoobar/index.cgi/users is:
 
 def users():
