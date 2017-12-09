@@ -1,0 +1,22 @@
+To avoid the user noticing my attack, I just make style of all the elements in 
+the html file as "display:none".
+
+Thes automatic submission of the form is perform in java script just as exercise7 does.
+
+To make it redirect to the course website as soon as the zoobar transfer finishes,
+I add an inline frame element and make the form's target to this iframe, besides,
+I add an EventListener to the iframe such that when the load of iframe finishes(at 
+this time we are sure the form has been submitted and get a response), we can set
+window.location.href to redirect it to the course website.
+
+The Same-Origin Policy can not prevent this kind of attack because we have map 
+port 8080 of our host ot port 8080 of the zoobar server. and the legal user login
+zoobar site with the url  "http://localhost:8080/", besides, the action of the form
+is "http://localhost:8080/zoobar/index.cgi/transfer", it's easy to see these two
+url have the same "scheme/host/port" tuple, thus the browser thinks they have the same
+origin, thus the browser will send the logged-in user's cookie directly to the zoobar
+server instead of requiring the attacker to log in first.
+
+To verify, just let the legal user login in with url "http://192.168.76.130:8080" and 
+the attack will not work now! Alternatively, if we change both hosts in the two url to
+192.168.76.130, it will work again!!!
