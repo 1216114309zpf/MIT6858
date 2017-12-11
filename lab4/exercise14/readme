@@ -1,0 +1,12 @@
+To design a profile worm, we should finish the following three steps:
+1, steal zoobars from the victim, this is the effect of the worm;
+2, copy the worm(attacker's profile) to the victim's profile;
+3, reset the attacker's zoobar to 10, so the victim will not find it;
+
+all these steps will be performed after the page has loaded.
+
+both steal-zoobar and copy-worm need form submittion operation, so we must
+contain invisible forms in the worm and submit these forms automatically
+with specific value when the page has loaded.
+
+the form submission can be performed in javascript.

